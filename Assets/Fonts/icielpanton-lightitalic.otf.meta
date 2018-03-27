@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 1d244be82b57f0245a995219a3feb762
+timeCreated: 1522158247
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: iCiel Panton
+  fontNames:
+  - iCiel Panton
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 2b5f12c4b563fe84899fd445a52d93b4, type: 3}
+  - {fileID: 12800000, guid: 3c5cce9bd3ea23f4092d4a2b6404c22b, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
