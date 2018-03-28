@@ -10,6 +10,8 @@ public class CamController : MonoBehaviour {
 	public float ZoomSpeed;
 	public float orthoZoomSpeed;
 	public float perspectiveZoomSpeed;
+	public float smoothSpeed = 0.125f;
+
 	// Use this for initialization
 	void Start () {
 		cam = GetComponent<Camera> ();
@@ -17,14 +19,22 @@ public class CamController : MonoBehaviour {
 
 	void Focus(Vector3 Position){
 	
-	
+
 	
 	}
 
 	void Update()
 	{
+/*		if (Input.GetMouseButtonDown (0)) {
+			Input.
+			Vector3 tmp = Input.mousePosition;
+			Vector3 desiredPosition = new Vector3 (tmp.x, tmp.y);
+			transform.position = Vector3.Lerp (transform.position, desiredPosition, smoothSpeed);
+		}
+*/
 		if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved)
 		{
+
 			// Get movement of the finger since last frame
 			Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
 			if (Mathf.Abs(transform.rotation.x) >= 85.0f) {
