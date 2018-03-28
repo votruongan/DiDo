@@ -13,7 +13,8 @@ public class GoogleApi : MonoBehaviour {
 
 	LocationInfo li;
 
-	public int zoom = 14;
+	public int zoomLevel = 14;
+	public string Center;
 	public string mapWidth = "640";
 	public string mapHeight = "640";
 	public string scalevalue = "2";
@@ -25,10 +26,11 @@ public class GoogleApi : MonoBehaviour {
 	public string GM_KEY = "AIzaSyBPn5hf-yVrOuZmYqwJBkMfrVzwkRduLaI";
 	IEnumerator Map()
 	{
-		url = "https://maps.googleapis.com/maps/api/staticmap?center=10.883050,106.782950&zoom=16&" +
-		"size=" + mapWidth + "x" + mapHeight +
-		"&scale=" + scalevalue +"&"+
-		"key=" + GM_KEY;
+		url = "https://maps.googleapis.com/maps/api/staticmap?center=" + Center +
+			"&zoom=" + zoomLevel.ToString() +
+		"&size=" + mapWidth + "x" + mapHeight +
+		"&scale=" + scalevalue +
+		"&key=" + GM_KEY;
 		
 		Debug.Log (url);
 		WWW www = new WWW (url);
@@ -38,7 +40,7 @@ public class GoogleApi : MonoBehaviour {
 		Debug.Log ("GOT TEXT");
 	}
 	// Use this for initialization
-	void Start () {
+	public void UpdateMap () {
 		a = GetComponent<MeshRenderer> ().material;
 		StartCoroutine (Map());
 	}
