@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class CamController : MonoBehaviour {
-	public Text txt;
 	public Camera cam;
 	public float RotateSpeed;
 	public float ZoomSpeed;
@@ -41,7 +40,6 @@ public class CamController : MonoBehaviour {
 			}
 			Vector3 rot = new Vector3 (touchDeltaPosition.y, touchDeltaPosition.x, 0.0f);
 			transform.Rotate (rot * RotateSpeed);
-			txt.text += touchDeltaPosition.y.ToString () + (-touchDeltaPosition.x).ToString ();
 			isIdle = false;
 		}
 		if (Input.touchCount == 0) {

@@ -53,10 +53,14 @@
   <ItemGroup>
      <Compile Include="Assets\Elenesski Generic Move Camera\GenericMoveCamera.cs" />
      <Compile Include="Assets\Elenesski Generic Move Camera\GenericMoveCameraInputs.cs" />
-     <Compile Include="Assets\Scripts\Animation.cs" />
      <Compile Include="Assets\Scripts\CamController.cs" />
      <Compile Include="Assets\Scripts\GoogleApi.cs" />
+     <Compile Include="Assets\Scripts\LanguageController.cs" />
      <Compile Include="Assets\Scripts\MainController.cs" />
+     <None Include="Assets\StreamingAssets\Language_English.xml" />
+     <None Include="Assets\StreamingAssets\Texts\Language_Vietnamese.xml" />
+     <None Include="Assets\StreamingAssets\Language_Vietnamese.xml" />
+     <None Include="Assets\StreamingAssets\Texts\Language_English.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

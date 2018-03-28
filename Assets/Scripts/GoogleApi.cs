@@ -13,14 +13,13 @@ public class GoogleApi : MonoBehaviour {
 
 	LocationInfo li;
 
-	public int zoomLevel = 14;
+	public float zoomLevel = 14;
 	public string Center;
 	public string mapWidth = "640";
 	public string mapHeight = "640";
 	public string scalevalue = "2";
 
-	public enum mapType {roadmap,satellite,hybrid,terrain}
-	public mapType mapSelected;
+	public string mapType;
 	public int scale;
 
 	public string GM_KEY = "AIzaSyBPn5hf-yVrOuZmYqwJBkMfrVzwkRduLaI";
@@ -29,6 +28,7 @@ public class GoogleApi : MonoBehaviour {
 		url = "https://maps.googleapis.com/maps/api/staticmap?center=" + Center +
 			"&zoom=" + zoomLevel.ToString() +
 		"&size=" + mapWidth + "x" + mapHeight +
+		"&maptype=" + mapType +
 		"&scale=" + scalevalue +
 		"&key=" + GM_KEY;
 		
