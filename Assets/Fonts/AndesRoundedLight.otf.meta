@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 4d5a1158f4eff2044adff56a2cb8d9c1
+timeCreated: 1522345692
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: iCiel Andes Rounded
+  fontNames:
+  - iCiel Andes Rounded
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
