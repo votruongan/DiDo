@@ -4,47 +4,61 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class CamController : MonoBehaviour {
+	public Transform Center;
 	public Camera cam;
-	public float RotateSpeed;
-	public float ZoomSpeed;
-	public float orthoZoomSpeed;
-	public float perspectiveZoomSpeed;
-	public float Delta;
+	public float RotateSpeed = 2;
+	public float ZoomSpeed = 0.125f;
+	public float smoothspeed = 0.125f;
 	public Transform FocusPoint;
-	public bool isIdle = true;
+
+	Vector3 prevTouchPos;
+	Vector2 TouchPosDiff = Vector2.zero;
+	Vector2 PointDiff = Vector2.zero;
+
 	// Use this for initialization
 	void Start () {
 		cam = GetComponent<Camera> ();
 	}
-
 	Vector3 Focus(Vector3 Position){
 		Vector3 res;
 		res.x = transform.position.x - Position.x;
 		res.y = transform.position.y - Position.y;
 		res.z = transform.position.z - Position.z;
-		Debug.DrawRay (transform.position,-res,Color.blue);
+		//Debug.DrawRay (transform.position,-res,Color.blue);
 		return -res;
+	}
+
+	// After Update
+	void FixedUpdate(){
+		Vector3 CurTouchPos = Input.GetTouch(0).position;
+		TouchPosDiff = new Vector2 (CurTouchPos.x - prevTouchPos.x, CurTouchPos.y - prevTouchPos.y);
+
+		Ray prevRay = cam.ScreenPointToRay (prevTouchPos);
+		RaycastHit prevHit;
+		Physics.Raycast(prevRay, out prevHit);
+
+		Ray curRay = cam.ScreenPointToRay (CurTouchPos);
+		RaycastHit curHit;
+		Physics.Raycast(curRay, out curHit);
+
+		PointDiff = new Vector2 (curHit.point.x - prevHit.point.x, curHit.point.z - prevHit.point.z);
+		prevTouchPos = CurTouchPos;
 	}
 
 	void Update()
 	{
-		if ((FocusPoint != null)&&(isIdle)) {
-			transform.LookAt (FocusPoint);
-		}
+
 		if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved)
 		{
 			// Get movement of the finger since last frame
-			Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
-			if (Mathf.Abs(transform.rotation.x) >= 85.0f) {
-				touchDeltaPosition.y = 0.0f;
-			}
-			Vector3 rot = new Vector3 (touchDeltaPosition.y, touchDeltaPosition.x, 0.0f);
-			transform.Rotate (rot * RotateSpeed);
-			isIdle = false;
+			Vector3 desiredPos = new Vector3 (transform.position.x - PointDiff.x/smoothspeed, transform.position.y, transform.position.z - PointDiff.y/smoothspeed);
+			transform.position = Vector3.Lerp (transform.position, desiredPos, smoothspeed);
 		}
+
 		if (Input.touchCount == 0) {
 			transform.Rotate (Vector3.zero);
 		}
+
 		// If there are two touches on the device...
 		if (Input.touchCount == 2)
 		{
@@ -68,6 +82,5 @@ public class CamController : MonoBehaviour {
 
 			transform.position = pos;
 		}
-
 	}
 }

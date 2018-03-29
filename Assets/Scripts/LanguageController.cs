@@ -10,7 +10,6 @@ public class LanguageController : MonoBehaviour {
 	private int NextLangID = 0;
 	public string[] LangList;
 	public Text[] Texts;
-	public Text DebText;
 	public RawImage LangIcon;
 	public Texture[] LanguageIcons;
 	public string LangDirectory;
@@ -46,7 +45,6 @@ public class LanguageController : MonoBehaviour {
 		XmlDocument TextsData = new XmlDocument ();
 		TextsData.Load(Path.Combine(LangDirectory,("Language_"+LangList[NextLangID]+".xml")));
 		Debug.Log (TextsData.InnerText);
-		DebText.text = TextsData.BaseURI;
 		XmlNode TextContent =  TextsData.SelectSingleNode("/Texts");
 		foreach (Text txt in Texts) {
 			try {		

@@ -1,11 +1,8 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LanguageController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CamController.cs">
     <Files>
-      <File FileName="Assets\Scripts\CamController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GoogleApi.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\LanguageController.cs" Line="23" Column="16" />
+      <File FileName="Assets\Scripts\CamController.cs" Line="58" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
