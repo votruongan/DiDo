@@ -31,7 +31,7 @@ public class CameraControlByMouse : MonoBehaviour {
 
 		Ray curRay = cam.ScreenPointToRay (CurMousePos);
 		RaycastHit curHit;
-		Physics.Raycast(curRay, out curHit);
+		if (!Physics.Raycast(curRay, out curHit)) curHit = prevHit;
 
 		PointDiff = new Vector2 (curHit.point.x - prevHit.point.x, curHit.point.z - prevHit.point.z);
 		prevMousePos = CurMousePos;
