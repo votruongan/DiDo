@@ -51,6 +51,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Elenesski Generic Move Camera\GenericMoveCamera.cs" />
+     <Compile Include="Assets\Elenesski Generic Move Camera\GenericMoveCameraInputs.cs" />
+     <Compile Include="Assets\Scripts\Animation.cs" />
      <Compile Include="Assets\Scripts\CamController.cs" />
      <Compile Include="Assets\Scripts\GoogleApi.cs" />
      <Compile Include="Assets\Scripts\MainController.cs" />

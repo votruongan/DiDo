@@ -29,6 +29,7 @@ D:\_PROJECT\_SandBox\ADiDo\Temp\bin\Debug\UnityEngine.HoloLens.xml
 D:\_PROJECT\_SandBox\ADiDo\Temp\bin\Debug\UnityEngine.VR.xml
 D:\_PROJECT\_SandBox\ADiDo\obj\Debug\Assembly-CSharp.dll
 D:\_PROJECT\_SandBox\ADiDo\obj\Debug\Assembly-CSharp.pdb
+<<<<<<< HEAD
 C:\Users\chien\OneDrive\Documents\GitHub\DiDo\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
 C:\Users\chien\OneDrive\Documents\GitHub\DiDo\obj\Debug\Assembly-CSharp.dll
 C:\Users\chien\OneDrive\Documents\GitHub\DiDo\obj\Debug\Assembly-CSharp.pdb
@@ -69,3 +70,37 @@ C:\Users\chien\OneDrive\Documents\GitHub\DiDo\Temp\bin\Debug\UnityEngine.UIAutom
 C:\Users\chien\OneDrive\Documents\GitHub\DiDo\Temp\bin\Debug\UnityEngine.GoogleAudioSpatializer.xml
 C:\Users\chien\OneDrive\Documents\GitHub\DiDo\Temp\bin\Debug\UnityEngine.HoloLens.xml
 C:\Users\chien\OneDrive\Documents\GitHub\DiDo\Temp\bin\Debug\UnityEngine.SpatialTracking.xml
+=======
+D:\_PROJECT\DiDo\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
+D:\_PROJECT\DiDo\obj\Debug\Assembly-CSharp.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\Assembly-CSharp.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\Assembly-CSharp.pdb
+D:\_PROJECT\DiDo\Temp\bin\Debug\nunit.framework.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\UnityEditor.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\UnityEngine.Analytics.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\UnityEngine.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\UnityEngine.HoloLens.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\UnityEngine.Networking.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\UnityEngine.TestRunner.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\UnityEngine.Timeline.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\UnityEngine.UI.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\Mono.Cecil.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\Unity.SerializationLogic.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\Unity.DataContract.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\ExCSS.Unity.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\Unity.Legacy.NRefactory.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\Unity.UNetWeaver.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\Unity.CecilTools.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\Mono.Cecil.Pdb.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\Mono.Cecil.Mdb.dll
+D:\_PROJECT\DiDo\Temp\bin\Debug\UnityEngine.xml
+D:\_PROJECT\DiDo\Temp\bin\Debug\UnityEditor.xml
+D:\_PROJECT\DiDo\Temp\bin\Debug\UnityEngine.UI.xml
+D:\_PROJECT\DiDo\Temp\bin\Debug\UnityEngine.Networking.xml
+D:\_PROJECT\DiDo\Temp\bin\Debug\UnityEngine.TestRunner.xml
+D:\_PROJECT\DiDo\Temp\bin\Debug\nunit.framework.xml
+D:\_PROJECT\DiDo\Temp\bin\Debug\UnityEngine.Timeline.xml
+D:\_PROJECT\DiDo\Temp\bin\Debug\UnityEngine.Analytics.xml
+D:\_PROJECT\DiDo\Temp\bin\Debug\UnityEngine.HoloLens.xml
+D:\_PROJECT\DiDo\obj\Debug\Assembly-CSharp.pdb
+>>>>>>> 309319bda7af58d390ee99a2aaa217198e551a1a

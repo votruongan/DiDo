@@ -10,31 +10,61 @@ public class CamController : MonoBehaviour {
 	public float ZoomSpeed;
 	public float orthoZoomSpeed;
 	public float perspectiveZoomSpeed;
-	public float smoothSpeed = 0.125f;
+
+	public float smoothSpeed = 0.005f;
+
+	public float Delta;
+	public Transform FocusPoint;
+	public bool isIdle = true;
+
+	public Object orig;
 
 	// Use this for initialization
 	void Start () {
 		cam = GetComponent<Camera> ();
 	}
 
-	void Focus(Vector3 Position){
-	
 
-	
+	Vector3 Focus(Vector3 Position){
+		Vector3 res;
+		res.x = transform.position.x - Position.x;
+		res.y = transform.position.y - Position.y;
+		res.z = transform.position.z - Position.z;
+		Debug.DrawRay (transform.position,-res,Color.blue);
+		return -res;
+
 	}
 
 	void Update()
 	{
-/*		if (Input.GetMouseButtonDown (0)) {
-			Input.
-			Vector3 tmp = Input.mousePosition;
-			Vector3 desiredPosition = new Vector3 (tmp.x, tmp.y);
-			transform.position = Vector3.Lerp (transform.position, desiredPosition, smoothSpeed);
+
+		if (Input.GetButton("Fire1")) {
+			
+			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+			RaycastHit hit;
+
+		
+
+			if (Physics.Raycast (ray, out hit) && hit.collider.tag == "Ground") {
+				
+				Vector3 move = new Vector3(hit.point.x - transform.position.x, 0, hit.point.z - transform.position.z);
+
+				Vector3 desiredPosition = transform.position + move;
+
+				transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+
+			
+			}
+
+		}
+
+
+/*		if ((FocusPoint != null) && (isIdle)) {
+			transform.LookAt (FocusPoint);
 		}
 */
-		if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved)
-		{
-
+		if (Input.touchCount == 1 && Input.GetTouch (0).phase == TouchPhase.Moved) {
+/*
 			// Get movement of the finger since last frame
 			Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
 			if (Mathf.Abs(transform.rotation.x) >= 85.0f) {
@@ -43,6 +73,19 @@ public class CamController : MonoBehaviour {
 			Vector3 rot = new Vector3 (touchDeltaPosition.y, touchDeltaPosition.x, 0.0f);
 			transform.Rotate (rot * RotateSpeed);
 			txt.text += touchDeltaPosition.y.ToString () + (-touchDeltaPosition.x).ToString ();
+			isIdle = false;
+*/
+			Ray ray = Camera.main.ScreenPointToRay (Input.GetTouch (0).position);
+			RaycastHit hit;
+
+			if (Physics.Raycast (ray, out hit) && hit.collider.tag == "Ground") {
+
+				Vector3 move = new Vector3 (hit.point.x - transform.position.x, 0, hit.point.z - transform.position.z);
+
+				Vector3 desiredPosition = transform.position + move;
+
+				transform.position = Vector3.Lerp (transform.position, desiredPosition, smoothSpeed);
+			}
 		}
 		if (Input.touchCount == 0) {
 			transform.Rotate (Vector3.zero);
@@ -69,26 +112,6 @@ public class CamController : MonoBehaviour {
 			pos.z += deltaMagnitudeDiff * ZoomSpeed;
 
 			transform.position = pos;
-			/*
-			// If the camera is orthographic...
-			if (cam.orthographic)
-			{
-				// ... change the orthographic size based on the change in distance between the touches.
-				cam.orthographicSize += deltaMagnitudeDiff * orthoZoomSpeed;
-
-				// Make sure the orthographic size never drops below zero.
-				cam.orthographicSize = Mathf.Max(cam.orthographicSize, 0.1f);
-			}
-			else
-			{
-				// Otherwise change the field of view based on the change in distance between the touches.
-				cam.fieldOfView += deltaMagnitudeDiff * perspectiveZoomSpeed;
-
-				// Clamp the field of view to make sure it's between 0 and 180.
-				cam.fieldOfView = Mathf.Clamp(cam.fieldOfView, 0.1f, 179.9f);
-			}*/
-
-
 		}
 
 	}
