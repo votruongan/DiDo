@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class MainController : MonoBehaviour {
 	public GameObject StartPanel;
+	public GameObject SearchPanel;
 	public CamController camcon;
 	public GoogleApi MapCon;
 	public Transform Center;
@@ -21,6 +22,10 @@ public class MainController : MonoBehaviour {
 		camcon.FocusPoint = (state)?(Empty):(Center);
 	}
 
+	public void Select_Search(){
+		StartPanel.SetActive (false);
+		SearchPanel.SetActive (true);		
+	}
 
 	public void Select_Sector(int SectorID){
 		switch (SectorID) {
@@ -45,13 +50,17 @@ public class MainController : MonoBehaviour {
 			break;
 		}
 	}
-
+	IEnumerator Wait(float sec){
+		yield return new WaitForSeconds(sec);
+	}
 	void Start(){
+		StartCoroutine(Wait(0.02f));
 		LangCont.UpdateLanguage ();
 	}
 
 	void Update(){
 		if (Input.GetKeyDown(KeyCode.Escape)) {
+			SearchPanel.SetActive (false);
 			SectorA.SetActive (false);
 			SectorB.SetActive (false);
 			Close_n_Focus (true);

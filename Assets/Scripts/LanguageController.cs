@@ -13,14 +13,19 @@ public class LanguageController : MonoBehaviour {
 	public Text DebText;
 	public RawImage LangIcon;
 	public Texture[] LanguageIcons;
+	public string LangDirectory;
 	public string SAPath;
 
 	void Start () {
-		SAPath = Application.persistentDataPath;
-		Debug.Log (SAPath);
-		if (!(Directory.Exists(SAPath+ @"\Texts"))) {
-			Debug.Log ("NO XML FOUND");
-			WriteXML ();
+		LangDirectory = Path.Combine(Application.persistentDataPath,"Texts");
+		if (!(Directory.Exists(LangDirectory))) {
+			SAPath = Path.Combine (Application.streamingAssetsPath, "Texts");
+			Directory.CreateDirectory (LangDirectory);
+			string xmlpath ="Language_English.xml";
+			StartCoroutine(WriteXML (xmlpath));
+			xmlpath = "Language_Vietnamese.xml";
+			StartCoroutine(WriteXML (xmlpath));
+
 		}
 	}
 
@@ -39,19 +44,35 @@ public class LanguageController : MonoBehaviour {
 			Debug.Log (lan);
 		}
 		XmlDocument TextsData = new XmlDocument ();
-		TextsData.Load(SAPath + @"\Texts\Language_"+LangList[NextLangID]+".xml"); 
+		TextsData.Load(Path.Combine(LangDirectory,("Language_"+LangList[NextLangID]+".xml")));
+		Debug.Log (TextsData.InnerText);
 		DebText.text = TextsData.BaseURI;
 		XmlNode TextContent =  TextsData.SelectSingleNode("/Texts");
 		foreach (Text txt in Texts) {
-			txt.text = TextContent.SelectSingleNode (txt.name).InnerText;
-			Debug.Log (txt.text);
+			try {		
+				txt.text = TextContent.SelectSingleNode (txt.name).InnerText;		
+				Debug.Log (txt.text);		
+			} catch (System.Exception ex) {
+				Debug.Log (txt.name + " FAILED: " + ex.Message);
+			}
 		}
 	}
 
-	void WriteXML(){
-		Directory.CreateDirectory (SAPath + @"\Texts");
+	IEnumerator WriteXML(string xmlname){
+		string xmlpath = Path.Combine (SAPath,xmlname);
+		Debug.Log (xmlpath);
+		//Load xml from Streaming Assets
+		WWW loadDB = new WWW(xmlpath);
+		yield return loadDB;
+		Debug.Log (loadDB.isDone);
+		Debug.Log (loadDB.text);
+		Debug.Log (loadDB.text);
+		// then save to Application.persistentDataPath
+		File.WriteAllBytes(Path.Combine(LangDirectory,xmlname), loadDB.bytes);
+		/*
+		Directory.CreateDirectory (LangDirectory + @"\Texts");
 		try{
-			File.WriteAllText (SAPath + @"\Texts\Language_English.xml",
+			File.WriteAllText (LangDirectory + @"\Texts\Language_English.xml",
 			"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>" +
 			"\n<Texts>\n\t<App_Slogan>Discover the Dorm</App_Slogan>" +
 			"\n\t<Butt_Search>Search for features</Butt_Search>\n\t" +
@@ -62,7 +83,7 @@ public class LanguageController : MonoBehaviour {
 			Debug.Log(e);
 		}
 		try{
-			File.WriteAllText (SAPath + @"\Texts\Language_Vietnamese.xml",
+			File.WriteAllText (LangDirectory + @"\Texts\Language_Vietnamese.xml",
 			"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<Texts>\n" +
 			"\t<App_Slogan>Khám phá Kí túc xá</App_Slogan>\n" +
 			"\t<Butt_Search>Tìm kiếm tiện ích</Butt_Search>\n" +
@@ -71,6 +92,6 @@ public class LanguageController : MonoBehaviour {
 		}
 		catch(IOException e){
 			Debug.Log(e);
-		}
+		}*/
 	}
 }

@@ -5,7 +5,7 @@
       <File FileName="Assets\Scripts\CamController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MainController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GoogleApi.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\LanguageController.cs" Line="21" Column="48" />
+      <File FileName="Assets\Scripts\LanguageController.cs" Line="23" Column="16" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
