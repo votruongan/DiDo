@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MainController : MonoBehaviour {
+	
 	public GameObject StartPanel;
 	public GameObject SearchPanel;
 	public CamController camcon;
@@ -16,7 +17,8 @@ public class MainController : MonoBehaviour {
 	public GameObject SectorB;
 	public GameObject SectorA;
 	public LanguageController LangCont;
-
+	public Texture Offline_A;
+	public Texture Offline_B;
 	void Close_n_Focus(bool state){
 		StartPanel.SetActive (state);
 		camcon.FocusPoint = (state)?(Empty):(Center);
