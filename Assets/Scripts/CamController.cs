@@ -7,74 +7,61 @@ public class CamController : MonoBehaviour {
 	public Transform Center;
 	public Camera cam;
 	public float RotateSpeed = 2;
-	public float ZoomSpeed = 0.001f;
+	public float ZoomSpeed = 0.125f;
 	public float smoothspeed = 0.125f;
-	public float maxCameraHigh = 40.0f;
-	public float minCameraHigh = 2.0f;
-	public float maxRotateAngles = 80.0f;
-	public float minRotateAngles = 15.0f; 
 	public Transform FocusPoint;
+
+	Vector3 prevTouchPos;
+	Vector2 TouchPosDiff = Vector2.zero;
+	Vector2 PointDiff = Vector2.zero;
 
 	// Use this for initialization
 	void Start () {
 		cam = GetComponent<Camera> ();
 	}
-	bool isZoom(Touch touchZero, Touch touchOne) {
-		
-		Vector2 deltaTouchZero = touchZero.deltaPosition / touchZero.deltaPosition.magnitude;
-		Vector2 deltaTouchOne = touchOne.deltaPosition / touchOne.deltaPosition.magnitude;
-
-		Vector2 sumVector = deltaTouchOne + deltaTouchZero;
-		if (sumVector.magnitude < 1)
-			return true;
-		return false;
+	Vector3 Focus(Vector3 Position){
+		Vector3 res;
+		res.x = transform.position.x - Position.x;
+		res.y = transform.position.y - Position.y;
+		res.z = transform.position.z - Position.z;
+		//Debug.DrawRay (transform.position,-res,Color.blue);
+		return -res;
 	}
 
-	bool isRotateUpDown(Touch touchZero, Touch touchOne) {
-		if (isZoom(touchZero, touchOne)) return false;
-		Vector2 deltaTouchZero = touchZero.deltaPosition;
-		return Mathf.Abs (deltaTouchZero.y) > Mathf.Abs (deltaTouchZero.x);
-	}
+	// After Update
+	void FixedUpdate(){
+		Vector3 CurTouchPos = Input.GetTouch(0).position;
+		TouchPosDiff = new Vector2 (CurTouchPos.x - prevTouchPos.x, CurTouchPos.y - prevTouchPos.y);
 
-	bool isRotateLeftRight(Touch touchZero, Touch touchOne) {
-		if (isZoom(touchZero, touchOne)) return false;
-		Vector2 deltaTouchZero = touchZero.deltaPosition;
-		return Mathf.Abs (deltaTouchZero.x) > Mathf.Abs (deltaTouchZero.y);
+		Ray prevRay = cam.ScreenPointToRay (prevTouchPos);
+		RaycastHit prevHit;
+		Physics.Raycast(prevRay, out prevHit);
+
+		Ray curRay = cam.ScreenPointToRay (CurTouchPos);
+		RaycastHit curHit;
+		Physics.Raycast(curRay, out curHit);
+
+		PointDiff = new Vector2 (curHit.point.x - prevHit.point.x, curHit.point.z - prevHit.point.z);
+		prevTouchPos = CurTouchPos;
 	}
 
 	void Update()
 	{
 
+		if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved)
+		{
+			// Get movement of the finger since last frame
+			Vector3 desiredPos = new Vector3 (transform.position.x - PointDiff.x/smoothspeed, transform.position.y, transform.position.z - PointDiff.y/smoothspeed);
+			transform.position = Vector3.Lerp (transform.position, desiredPos, smoothspeed);
+		}
+
 		if (Input.touchCount == 0) {
 			transform.Rotate (Vector3.zero);
 		}
 
-		// Move camera
-		if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved)
+		// If there are two touches on the device...
+		if (Input.touchCount == 2)
 		{
-			Touch curTouch = Input.GetTouch (0);
-			Vector2 curTouchPos = curTouch.position;
-			Vector2 prevTouchPos = curTouch.position - curTouch.deltaPosition;
-
-			Ray prevRay = cam.ScreenPointToRay (prevTouchPos);
-			RaycastHit prevHit;
-			Physics.Raycast(prevRay, out prevHit);
-
-
-			Ray curRay = cam.ScreenPointToRay (curTouchPos);
-			RaycastHit curHit;
-			if (!Physics.Raycast(curRay, out curHit)) curHit = prevHit;
-			Debug.Log (prevHit.point + ", " + curHit.point);
-
-			Vector3 PointDiff = curHit.point - prevHit.point;
-
-			Vector3 desiredPos = transform.position - PointDiff/smoothspeed;
-			transform.position = Vector3.Lerp (transform.position, desiredPos, smoothspeed);
-		}
-
-		//If there are two touches on the device...
-		if (Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Moved && Input.GetTouch(1).phase == TouchPhase.Moved) {
-
 			// Store both touches.
 			Touch touchZero = Input.GetTouch(0);
 			Touch touchOne = Input.GetTouch(1);
@@ -82,44 +69,18 @@ public class CamController : MonoBehaviour {
 			// Find the position in the previous frame of each touch.
 			Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
 			Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
-		
-			// Zoom
-			if (isZoom(touchZero, touchOne)) {
-				// Focus on the middle point between two touch
-				Vector2 screenFocusPoint = (touchOne.position + touchZero.position) / 2;
-				Ray ray = cam.ScreenPointToRay (screenFocusPoint);
-				RaycastHit hit;
-				Physics.Raycast (ray, out hit);
 
-				// Delta magnitude
-				Vector2 deltaPreVecto = touchZeroPrevPos - touchOnePrevPos;
-				Vector2 deltaCurVecto = touchZero.position - touchOne.position;
-				float deltaMag = deltaCurVecto.magnitude - deltaPreVecto.magnitude;
+			// Find the magnitude of the vector (the distance) between the touches in each frame.
+			float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+			float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
 
-				// Zoom
-				if (deltaMag > 0) 
-					if (transform.position.y > minCameraHigh) transform.position = Vector3.Lerp (transform.position, hit.point, ZoomSpeed);
-				else 
-					if (transform.position.y < maxCameraHigh) transform.position = Vector3.Lerp(transform.position, 2*transform.position - hit.point, ZoomSpeed);
-			}
+			// Find the difference in the distances between each frame.
+			float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
+			Vector3 pos = transform.position;
+			pos.y += deltaMagnitudeDiff * ZoomSpeed;
+			pos.z += deltaMagnitudeDiff * ZoomSpeed;
 
-			if (isRotateUpDown (touchZero, touchOne)) {
-				Vector3 rot = new Vector3 (touchZero.deltaPosition.y, 0, 0);
-				transform.Rotate (rot * RotateSpeed);
-			}
-
-			if (isRotateLeftRight(touchZero, touchOne)) {
-				// Focus on the middle point between two touch
-				Vector2 screenFocusPoint = (touchOne.position + touchZero.position) / 2;
-				Ray ray = cam.ScreenPointToRay (screenFocusPoint);
-				RaycastHit hit;
-				Physics.Raycast (ray, out hit);
-
-				Vector3 axis = new Vector3 (0, touchZero.deltaPosition.x, 0);
-				transform.RotateAround (hit.point, axis, RotateSpeed * 10);
-			}
-
-
+			transform.position = pos;
 		}
 	}
 }

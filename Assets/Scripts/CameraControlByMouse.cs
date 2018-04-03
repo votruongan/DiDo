@@ -1,6 +1,4 @@
-﻿#if UNITY_EDITOR_WIN
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +17,7 @@ public class CameraControlByMouse : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		cam = GetComponent<Camera> ();
+		plane = GetComponent<Plane> ();
 	}
 
 	// After Update
@@ -46,6 +45,7 @@ public class CameraControlByMouse : MonoBehaviour {
 			RaycastHit hit;
 			Physics.Raycast (ray, out hit);
 
+			Debug.Log (hit.point);
 			Vector3 axis = new Vector3 (0, (MousePosDiff.x + MousePosDiff.y) / 2, 0);
 			transform.RotateAround (hit.point, axis, RotateSpeed);
 		} else {
@@ -55,13 +55,14 @@ public class CameraControlByMouse : MonoBehaviour {
 				Vector3 desiredPos = new Vector3 (transform.position.x - PointDiff.x/smoothspeed, transform.position.y, transform.position.z - PointDiff.y/smoothspeed);
 				transform.position = Vector3.Lerp (transform.position, desiredPos, smoothspeed);
 			}
-				
+
+			Debug.Log (transform.eulerAngles);
 			// Rotate up/down
 			if (Input.GetButton ("Fire2") && MousePosDiff != Vector2.zero) {
 
 				//float value  = Mathf.Min(Mathf.Abs (MousePosDiff.y), 20.0f) * Mathf.Abs (MousePosDiff.y) / MousePosDiff.y;
 				Vector3 rot = new Vector3 (MousePosDiff.y, 0, 0);
-
+				Debug.Log (rot);
 				if (transform.eulerAngles.x >= 15.0f && transform.eulerAngles.x <= 80.0f) 
 					transform.Rotate (rot * RotateSpeed / 10);
 				
@@ -85,5 +86,3 @@ public class CameraControlByMouse : MonoBehaviour {
 
 	}
 }
-
-#endif
