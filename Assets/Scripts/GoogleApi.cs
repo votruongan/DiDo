@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class GoogleApi : MonoBehaviour {
 	public Material a;
-
+	public bool Loading;
 	string url;
-
+	public GameObject Load_Panel;
 	public float lat;
 	public float lon;
 
@@ -26,23 +26,35 @@ public class GoogleApi : MonoBehaviour {
 	IEnumerator Map()
 	{
 		url = "https://maps.googleapis.com/maps/api/staticmap?center=" + Center +
-			"&zoom=" + zoomLevel.ToString() +
+		"&zoom=" + zoomLevel.ToString () +
 		"&size=" + mapWidth + "x" + mapHeight +
 		"&maptype=" + mapType +
 		"&scale=" + scalevalue +
+		"&style=feature:poi|visibility:off"+
 		"&key=" + GM_KEY;
 		
 		Debug.Log (url);
 		WWW www = new WWW (url);
-		Debug.Log ("GOT");
 		yield return www;
 		a.mainTexture = www.texture;
-		Debug.Log ("GOT TEXT");
+		Debug.Log ("GOT TEXTURE");
+		Loading = false;
+		Load_Panel.SetActive (false);
 	}
+
+	IEnumerator WaitandLoad(float secs){
+		yield return new WaitForSeconds(secs);
+		if (Loading) {
+			Load_Panel.SetActive (true);			
+		}
+	}
+
 	// Use this for initialization
 	public void UpdateMap () {
 		a = GetComponent<MeshRenderer> ().material;
+		Loading = true;
 		StartCoroutine (Map());
+		WaitandLoad (0.2f);
 	}
 	
 	// Update is called once per frame
