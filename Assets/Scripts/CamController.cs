@@ -14,7 +14,8 @@ public class CamController : MonoBehaviour {
 	public float maxRotateAngles = 80.0f;
 	public float minRotateAngles = 15.0f; 
 	public Transform FocusPoint;
-
+	public int tapCount = 0;
+	public float doubleTapTimer = 0f;
 	// Use this for initialization
 	void Start () {
 		cam = GetComponent<Camera> ();
@@ -97,10 +98,13 @@ public class CamController : MonoBehaviour {
 				float deltaMag = deltaCurVecto.magnitude - deltaPreVecto.magnitude;
 
 				// Zoom
-				if (deltaMag > 0) 
-					if (transform.position.y > minCameraHigh) transform.position = Vector3.Lerp (transform.position, hit.point, ZoomSpeed);
-				else 
-					if (transform.position.y < maxCameraHigh) transform.position = Vector3.Lerp(transform.position, 2*transform.position - hit.point, ZoomSpeed);
+				if (deltaMag > 0) {
+					if (transform.position.y > minCameraHigh)
+						transform.position = Vector3.Lerp (transform.position, hit.point, ZoomSpeed);
+				} else { 
+					if (transform.position.y < maxCameraHigh)
+						transform.position = Vector3.Lerp (transform.position, 2 * transform.position - hit.point, ZoomSpeed);
+				}
 			}
 
 			if (isRotateUpDown (touchZero, touchOne)) {
@@ -110,7 +114,7 @@ public class CamController : MonoBehaviour {
 
 			if (isRotateLeftRight(touchZero, touchOne)) {
 				// Focus on the middle point between two touch
-				Vector2 screenFocusPoint = (touchOne.position + touchZero.position) / 2;
+				Vector2 screenFocusPoint = new Vector2 (Screen.width /2, Screen.height /2);
 				Ray ray = cam.ScreenPointToRay (screenFocusPoint);
 				RaycastHit hit;
 				Physics.Raycast (ray, out hit);
@@ -120,6 +124,34 @@ public class CamController : MonoBehaviour {
 			}
 
 
+		}
+
+		// Double tap to choose a building
+		if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
+		{
+			tapCount++;
+		}
+		if (tapCount > 0)
+		{
+			doubleTapTimer += Time.deltaTime;
+		}
+		if (tapCount >= 2)
+		{
+			Ray ray = cam.ScreenPointToRay (Input.GetTouch (0).position);
+			RaycastHit hit;
+			Physics.Raycast (ray, out hit);
+			/*
+			Vector3 desiredPos = hit.collider.gameObject.transform.position - 10 * (transform.position - hit.collider.gameObject.transform.position)
+								/ (hit.collider.gameObject.transform.position - transform.position).y;
+			transform.position = Vector3.Lerp (transform.position, desiredPos, 2 * smoothspeed);
+		*/
+			doubleTapTimer = 0.0f;
+			tapCount = 0;
+		}
+		if (doubleTapTimer > 0.5f)
+		{
+			doubleTapTimer = 0f;
+			tapCount = 0;
 		}
 	}
 }

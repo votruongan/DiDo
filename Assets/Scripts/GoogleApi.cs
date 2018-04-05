@@ -31,6 +31,9 @@ public class GoogleApi : MonoBehaviour {
 		"&maptype=" + mapType +
 		"&scale=" + scalevalue +
 		"&style=feature:poi|visibility:off"+
+		"&style=element:labels|visibility:off" +
+		"&style=feature:landscape.man_made|geometry.fill|color:0x0080C8" +
+		"&style=feature:landscape.natural|geometry.fill|color:0x77dd77" +
 		"&key=" + GM_KEY;
 		
 		Debug.Log (url);
